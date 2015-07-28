@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       get 'merchants/random', to: 'merchants#random'
       get 'merchants/find', to: 'merchants#search'
       get 'merchants/find_all', to: 'merchants#find_all'
-      get 'merchants/most_revenue', to: 'merchants#top_revenue'
+      get 'merchants/most_revenue', to: 'merchants#most_revenue'
       resources :merchants, only: [:show] do
         resources :items, only: [:index]
         resources :invoices, only: [:index]
