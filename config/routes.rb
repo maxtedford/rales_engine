@@ -1,56 +1,57 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  namespace :api, defaults: {format: 'json'} do
+    namespace :v1 do
+      get 'merchants/random', to: 'merchants#random'
+      get 'merchants/find', to: 'merchants#search'
+      get 'merchants/find_all', to: 'merchants#find_all'
+      get 'merchants/most_revenue', to: 'merchants#top_revenue'
+      resources :merchants, only: [:show] do
+        resources :items, only: [:index]
+        resources :invoices, only: [:index]
+      end
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+      get 'customers/random', to: 'customers#random'
+      get 'customers/find', to: 'customers#search'
+      get 'customers/find_all', to: 'customers#find_all'
+      resources :customers, only: [:show] do
+        resources :invoices, only: [:index]
+        get '/transactions', to: 'customers#transactions'
+      end
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+      get 'items/random', to: 'items#random'
+      get 'items/find', to: 'items#search'
+      get 'items/find_all', to: 'items#find_all'
+      resources :items, only: [:show] do
+        resources :invoice_items, only: [:index]
+        get '/merchant', to: 'items#merchant'
+      end
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+      get 'invoices/random', to: 'invoices#random'
+      get 'invoices/find', to: 'invoices#search'
+      get 'invoices/find_all', to: 'invoices#find_all'
+      resources :invoices, only: [:show] do
+        resources :transactions, only: [:index]
+        resources :invoice_items, only: [:index]
+        resources :items, only: [:index]
+        get '/customer', to: 'invoices#customer'
+        get '/merchant', to: 'invoices#merchant'
+      end
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+      get 'transactions/random', to: 'transactions#random'
+      get 'transactions/find', to: 'transactions#search'
+      get 'transactions/find_all', to: 'transactions#find_all'
+      resources :transactions, only: [:show] do
+        get '/invoice', to: 'transactions#invoice'
+      end
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+      get 'invoice_items/random', to: 'invoice_items#random'
+      get 'invoice_items/find', to: 'invoice_items#search'
+      get 'invoice_items/find_all', to: 'invoice_items#find_all'
+      resources :invoice_items, only: [:show] do
+        get '/invoice', to: 'invoice_items#invoice'
+        get '/item', to: 'invoice_items#item'
+      end
+    end
+  end
 end
