@@ -15,4 +15,12 @@ class Item < ActiveRecord::Base
   belongs_to :merchant
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
+  
+  def self.most_revenue(quantity)
+    all.sort_by{ |item| item.total_revenue }.last(quantity).reverse
+  end
+  
+  def total_revenue
+    invoices.successful.joins(:invoice_items).sum('"invoice_items"."quantity" * "invoice_items"."unit_price"')
+  end
 end
