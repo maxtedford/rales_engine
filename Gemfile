@@ -45,3 +45,8 @@ group :development, :test do
   gem 'capybara'
 end
 
+group :test do
+  gem 'database_cleaner'
+  gem 'simplecov'
+end
+
