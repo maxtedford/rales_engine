@@ -1,5 +1,9 @@
 class Api::V1::MerchantsController < ApplicationController
 
+  def index
+    respond_with Merchant.all
+  end
+  
   def random
     respond_with Merchant.all.sample
   end
@@ -29,7 +33,11 @@ class Api::V1::MerchantsController < ApplicationController
   end
   
   def revenue
-    respond_with Merchant.find_by(id: params[:id]).total_revenue
+    if params[:date]
+      respond_with Merchant.find_by(id: params[:id]).revenue_by_date(params[:date])
+    else
+      respond_with Merchant.find_by(id: params[:id]).total_revenue
+    end
   end
   
   def favorite_customer

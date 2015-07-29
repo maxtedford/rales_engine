@@ -23,4 +23,16 @@ class Item < ActiveRecord::Base
   def total_revenue
     invoices.successful.joins(:invoice_items).sum('"invoice_items"."quantity" * "invoice_items"."unit_price"')
   end
+  
+  def self.most_items(quantity)
+    all.sort_by{ |item| item.total_items }.last(quantity).reverse
+  end
+  
+  def total_items
+    invoices.successful.joins(:invoice_items).sum('"invoice_items"."quantity"')
+  end
+  
+  def best_day
+    invoices.successful.group('invoices.created_at').sum('quantity * unit_price').sort_by(&:last).reverse.first[0]
+  end
 end

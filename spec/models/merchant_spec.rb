@@ -118,4 +118,6 @@ describe 'Merchant', :type => :model do
     expect(merchant.customers.first).to eq(johnny)
     expect(merchant.customers.last).to eq(jim)
   end
+  
+  
 end

@@ -27,4 +27,8 @@ class Invoice < ActiveRecord::Base
   def self.top_customer_id
     joins(:customer).group(:customer_id).count.sort_by{|_, count| count}.reverse.first[0]
   end
+  
+  def self.top_merchant_id
+    joins(:merchant).group(:merchant_id).count.sort_by{|_, count| count}.reverse.first[0]
+  end
 end

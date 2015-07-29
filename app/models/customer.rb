@@ -10,4 +10,8 @@ class Customer < ActiveRecord::Base
   
   has_many :invoices
   has_many :merchants, through: :invoices
+  
+  def favorite_merchant
+    Merchant.find(invoices.successful.top_merchant_id)
+  end
 end
