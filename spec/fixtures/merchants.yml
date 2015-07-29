@@ -1,0 +1,20 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name: I sell hats
+  created_at: 2015-07-27 14:05:32
+  updated_at: 2015-07-27 14:05:32
+
+two:
+  id: 2
+  name: I sell shirts
+  created_at: 2015-07-27 14:05:32
+  updated_at: 2015-07-27 14:05:32
+
+three:
+  id: 3
+  name: I sell spoons
+  created_at: 2015-07-27 14:05:32
+  updated_at: 2015-07-27 14:05:32
+

@@ -38,7 +38,7 @@ describe Api::V1::CustomersController do
       
       customer = JSON.parse(response.body)
       
-      expect(customer['first_name']).to eq("Johnny" || "Jorge")
+      expect(customer['created_at']).to eq("2012-03-27T14:58:07.000Z")
     end
   end
   

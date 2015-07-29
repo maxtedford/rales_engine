@@ -11,7 +11,7 @@ class Merchant < ActiveRecord::Base
   has_many :customers, through: :invoices
   
   def self.most_revenue(quantity)
-    all.sort_by(&:total_revenue).last(quantity).reverse
+    all.sort_by{ |merchant| merchant.total_revenue }.last(quantity).reverse
   end
   
   def total_revenue
@@ -19,7 +19,7 @@ class Merchant < ActiveRecord::Base
   end
   
   def self.most_items(quantity)
-    all.sort_by(&:total_items).last(quantity).reverse
+    all.sort_by{ |merchant| merchant.total_items }.last(quantity).reverse
   end
   
   def total_items

@@ -5,9 +5,45 @@ describe 'Merchant', :type => :model do
   let(:valid_attrib) { { name: "Justin Bieber",
                          created_at: "2012-03-27 14:58:07 UTC",
                          updated_at: "2012-03-27 14:58:07 UTC" } }
+
+  let(:merchant) { Merchant.create(name: "Justin Bieber",
+                                   created_at: "2012-03-27 14:53:59 UTC",
+                                   updated_at: "2012-03-27 14:53:59 UTC") }
+
+  let(:customer) { Customer.create(first_name: "Johnny",
+                                   last_name: "Walker",
+                                   created_at: "2012-03-27 14:53:59 UTC",
+                                   updated_at: "2012-03-27 14:53:59 UTC") }
+
+  let(:item) { Item.create(name: "Item",
+                           description: "Item description",
+                           unit_price: 10,
+                           merchant_id: merchant.id,
+                           created_at: "2012-03-27 14:53:59 UTC",
+                           updated_at: "2012-03-27 14:53:59 UTC") }
+
+  let(:invoice) { Invoice.create(customer_id: customer.id,
+                                 merchant_id: merchant.id,
+                                 status: "shipped",
+                                 created_at: "2012-03-27 14:53:59 UTC",
+                                 updated_at: "2012-03-27 14:53:59 UTC") }
+
+  let(:invoice_item) { InvoiceItem.create(item_id: item.id,
+                                          invoice_id: invoice.id, 
+                                          quantity: 5,
+                                          unit_price: 10,
+                                          created_at: "2012-03-27 14:53:59 UTC",
+                                          updated_at: "2012-03-27 14:53:59 UTC") }
+
+  let(:transaction) { Transaction.create(invoice_id: invoice.id,
+                                         credit_card_number: "2424242424242424",
+                                         credit_card_expiration_date: nil,
+                                         result: "success'",
+                                         created_at: "2012-03-27 14:53:59 UTC",
+                                         updated_at: "2012-03-27 14:53:59 UTC") }
   
   it 'is valid' do
-    merchant = Merchant.create(valid_attrib)
+    merchant
     
     expect(merchant).to be_valid
   end
@@ -40,7 +76,7 @@ describe 'Merchant', :type => :model do
   end
   
   it 'will return all the items associated with a particular merchant' do
-    merchant = Merchant.create(valid_attrib)
+    merchant
     item1    = Item.create( name: "Item 1",
                             description: "Item 1 description",
                             unit_price: 10,
@@ -119,5 +155,21 @@ describe 'Merchant', :type => :model do
     expect(merchant.customers.last).to eq(jim)
   end
   
+  it 'can return the revenue for a single merchant' do
+    merchant; customer; item; invoice; invoice_item; transaction
+    
+    expect(merchant.total_revenue.class).to eq(BigDecimal)
+  end
   
+  it 'can return the most items for a single merchant' do
+    merchant; customer; item; invoice; invoice_item; transaction
+    
+    expect(merchant.total_items.class).to eq(Fixnum)
+  end
+  
+  it 'can return a merchants revenue by date' do
+    merchant; customer; item; invoice; invoice_item; transaction
+    
+    expect(merchant.revenue_by_date("2012-03-29 14:58:07 UTC").class).to eq(BigDecimal)
+  end
 end
