@@ -25,7 +25,7 @@ class Item < ActiveRecord::Base
   end
   
   def self.most_items(quantity)
-    all.sort_by{ |item| item.total_items }.last(quantity).reverse
+    all.sort_by{ |item| item.total_items }.last(quantity)
   end
   
   def total_items

@@ -4,7 +4,7 @@ class Api::V1::InvoicesController < ApplicationController
     if params[:merchant_id]
       respond_with Invoice.where(merchant_id: params[:merchant_id])
     elsif params[:customer_id]
-      respond_with Invoice.where(customer_id: params[:customer_id]).reverse
+      respond_with Invoice.where(customer_id: params[:customer_id])
     else
       respond_with Invoice.all
     end
