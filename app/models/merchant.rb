@@ -15,7 +15,7 @@ class Merchant < ActiveRecord::Base
   end
   
   def total_revenue
-    invoices.successful.joins(:invoice_items).sum("quantity * unit_price")
+    invoices.successful.joins(:invoice_items).sum("quantity * unit_price") / 100
   end
   
   def self.most_items(quantity)
@@ -31,7 +31,7 @@ class Merchant < ActiveRecord::Base
   end
   
   def revenue_by_date(date)
-    invoices.successful.where(created_at: date).joins(:invoice_items).sum("quantity * unit_price")
+    invoices.successful.where(created_at: date).joins(:invoice_items).sum("quantity * unit_price") / 100
   end
   
   def favorite_customer
